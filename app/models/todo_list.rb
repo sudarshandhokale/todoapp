@@ -2,7 +2,7 @@ class TodoList < ApplicationRecord
   has_many :todo_items, dependent: :nullify
   validates :title, presence: true, length: { maximum: 60 }
 
-  scope :search, -> (title) { where('title like ?', "#{title}%") }
+  scope :search, -> (title) { where('title ilike ?', "#{title}%") }
   scope :pagination, -> (page, limit) { paginate(page: page, per_page: limit) }
   
   def self.trash
