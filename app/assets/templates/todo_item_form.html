@@ -1,0 +1,17 @@
+<form class="form-horizontal" name="todoItemForm" ng-submit="save()" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Todo Item</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="row">
+      <div class="col-xs-12 col-md-12" ng-class="errorClass('content')">
+        <input type="text" class="form-control input-underline" placeholder="Content" name="content" ng-model="todo_item.content" server-error />
+        <span class="help-block pull-left" ng-show="todoItemForm.content.$error.server">{{errors.content}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <input type="submit" class="btn btn-warning" value="Submit">
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+  </div>
+</form>

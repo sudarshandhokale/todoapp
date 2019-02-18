@@ -1,0 +1,52 @@
+<div ng-controller="TodoListCtrl">
+  <div class="page-header">
+    <a class="btn btn-primary pull-right" ng-href="/trash" title="Trash"><i class="fa fa-trash"></i></a>
+    <button type="button" class="btn btn-primary pull-right search" ng-click="addTodoList()" title="Add"><i class="fa fa-plus"></i></button>
+    <div class="form-group pull-right search">
+      <input type="text" class="form-control" ng-model="title" placeholder="Search" ng-change="searchTodoList(title)">
+    </div>
+    <h1><small>TodoList</small></h1>
+  </div>
+  <div class="row">
+    <div class="col-xs-4 col-md-4" dir-paginate="todo_list in todo_lists | itemsPerPage: pageSize" current-page="currentPage" total-items="totalItems">
+      <div class="thumbnail">
+        <div class="caption">
+          <uib-accordion>
+            <div uib-accordion-group is-open="true" is-disabled="true">
+              <uib-accordion-heading>
+                {{todo_list.title}}
+                <div class="pull-right">
+                  <a href="javascript:void(0)" ng-click="editTodoList(todo_list)" title="Edit"><i class="fa fa-edit"></i></a>
+                  <a href="javascript:void(0)" ng-click="destroyTodoList(todo_list)" ng-confirm-click="Are you sure, Do you want to destroy todo list {{todo_list.title}}?" title="Destroy"><i class="fa fa-trash"></i></a>
+                  <a href="javascript:void(0)" ng-click="deleteTodoList(todo_list)" ng-confirm-click="Are you sure, Do you want to delete todo list {{todo_list.title}}?" title="Delete"><i class="fa fa-ban"></i></a>  
+                </div>
+              </uib-accordion-heading>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="item in todo_list.todo_items">
+                  {{item.content}}
+                  <div class="pull-right">
+                    <a href="javascript:void(0)" ng-click="editTodoItem(todo_list, item)" title="Edit"><i class="fa fa-edit"></i></a>
+                    <a href="javascript:void(0)" ng-click="destroyTodoItem(todo_list, item)" ng-confirm-click="Are you sure, Do you want to destroy todo item {{item.content}} of todo list {{todo_list.title}}?" title="Destroy"><i class="fa fa-trash"></i></a>
+                    <a href="javascript:void(0)" ng-click="deleteTodoItem(todo_list, item)" ng-confirm-click="Are you sure, Do you want to delete todo item {{item.content}} of todo list {{todo_list.title}}?" title="Delete"><i class="fa fa-ban"></i></a>
+                  </div>
+                </li>
+              </ul>
+              <button type="button" class="btn btn-default btn-sm" ng-click="addTodoItem(todo_list)" title="Add Item"><i class="fa fa-plus"></i></button>
+            </div>
+          </uib-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-12"> 
+      <div class="head_22">
+        <div class="border">
+          <nav>
+            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

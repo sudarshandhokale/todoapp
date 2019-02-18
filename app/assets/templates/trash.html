@@ -1,0 +1,45 @@
+<div ng-controller="TrashCtrl">
+  <div class="page-header">
+    <a class="btn btn-primary pull-right" ng-href="/" title="TodoList"><i class="fa fa-list"></i></a>
+    <h1><small>Trash</small></h1>
+  </div>
+  <div class="row">
+    <div class="col-xs-4 col-md-4" dir-paginate="todo_list in todo_lists | itemsPerPage: pageSize" current-page="currentPage" total-items="totalItems">
+      <div class="thumbnail">
+        <div class="caption">
+          <uib-accordion>
+            <div uib-accordion-group class="panel-danger" is-open="true" is-disabled="true">
+              <uib-accordion-heading>
+                {{todo_list.title}}
+                <div class="pull-right" ng-if="todo_list.is_deleted">
+                  <a href="javascript:void(0)" ng-click="restoreTodoList(todo_list)" title="Restore"><i class="fa fa-recycle"></i></a>
+                  <a href="javascript:void(0)" ng-click="deleteTodoList(todo_list)" ng-confirm-click="Are you sure, Do you want to delete todo list {{todo_list.title}}?" title="Delete"><i class="fa fa-ban"></i></a>  
+                </div>
+              </uib-accordion-heading>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="item in todo_list.deleted_todo_items">
+                  {{item.content}}
+                  <div class="pull-right" ng-if="!todo_list.is_deleted">
+                    <a href="javascript:void(0)" ng-click="restoreTodoItem(todo_list, item)" title="Restore"><i class="fa fa-recycle"></i></a>
+                    <a href="javascript:void(0)" ng-click="deleteTodoItem(todo_list, item)" ng-confirm-click="Are you sure, Do you want to delete todo item {{item.content}} of todo list {{todo_list.title}}?" title="Delete"><i class="fa fa-ban"></i></a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </uib-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-offset-2 col-md-offset-2 col-xs-8 col-md-8"> 
+      <div class="head_22">
+        <div class="border">
+          <nav>
+            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

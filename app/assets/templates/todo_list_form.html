@@ -1,0 +1,17 @@
+<form class="form-horizontal" name="todoListForm" ng-submit="save()" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Todo List</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="row">
+      <div class="col-xs-12 col-md-12" ng-class="errorClass('title')">
+        <input type="text" class="form-control input-underline" placeholder="Title" name="title" ng-model="todo_list.title" server-error />
+        <span class="help-block pull-left" ng-show="todoListForm.title.$error.server">{{errors.title}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <input type="submit" class="btn btn-warning" value="Submit">
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+  </div>
+</form>

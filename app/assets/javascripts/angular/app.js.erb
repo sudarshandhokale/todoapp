@@ -1,0 +1,100 @@
+var myApp = angular.module('todo', [
+  'ngResource',
+  'ngAnimate',
+  'ui.router',
+  'templates',
+  'flash',
+  'angularSpinner',
+  'ui.bootstrap',
+  'angularUtils.directives.dirPagination'
+]);
+
+myApp.config(['usSpinnerConfigProvider', function (usSpinnerConfigProvider) {
+  usSpinnerConfigProvider.setTheme('bigBlue', {color: 'blue', radius: 20});
+}]);
+
+myApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+  function($stateProvider, $urlRouterProvider, $locationProvider) {
+  $stateProvider.state('*', {
+    url: '/',
+    templateUrl: 'todo_lists.html'
+  }).state('trash', {
+    url: '/trash',
+    templateUrl: 'trash.html'
+  });
+  $urlRouterProvider.otherwise('/');
+  $locationProvider.html5Mode(true);
+}]);
+
+myApp.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);
+
+myApp.factory('TodoList', ['$resource',function($resource){
+  return $resource('api/v1/todo_lists/:id/:action', { id: '@id' },
+    {
+      all: { method: 'GET' },
+      create: { method: 'POST' },
+      update: { method: 'PATCH' },
+      delete: { method: 'DELETE' },
+      softDelete: { method: 'DELETE', params: { action: 'soft_delete' } },
+      restore: { method: 'PATCH', params: { action: 'restore' } }
+    }
+  );
+}]);
+
+myApp.factory('TodoItem', ['$resource',function($resource){
+  return $resource('api/v1/:action1/:todo_list_id/todo_items/:id/:action2',
+    { todo_list_id: '@todo_list_id', id: '@id' },
+    {
+      create: { method: 'POST', params: { action1: 'todo_lists' } },
+      update: { method: 'PATCH' },
+      delete: { method: 'DELETE' },
+      softDelete: { method: 'DELETE', params: { action2: 'soft_delete' } },
+      restore: { method: 'PATCH', params: { action2: 'restore' } }
+    }
+  );
+}]);
+
+myApp.factory('Spin', ['usSpinnerService', function (usSpinnerService) {
+  return {
+    startSpin: function () {
+      usSpinnerService.spin('spinner');
+    },
+    stopSpin: function () {
+      usSpinnerService.stop('spinner');
+    }
+  };
+}]);
+
+myApp.directive('serverError', function(){
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function(scope,element,attrs,ctrl){
+      return element.on('change keyup', function(){
+        return scope.$apply(function(){
+          return ctrl.$setValidity('server', true);
+        });
+      });
+    }
+  };
+});
+
+myApp.directive('ngConfirmClick', [
+  function(){
+    return {
+      priority: -1,
+      restrict: 'A',
+      link: function(scope, element, attrs){
+        element.bind('click', function(e){
+          var message = attrs.ngConfirmClick;
+          if(message && !confirm(message)){
+            e.stopImmediatePropagation();
+            e.preventDefault();
+          }
+        });
+      }
+    }
+  }
+]);
