@@ -44,7 +44,7 @@ app.controller('TodoListCtrl', ['$scope', '$state', 'Flash', 'Spin', 'TodoList',
               Spin.stopSpin();
               Flash.create('success', "Todo list created successfully", 'custom-class');
             }, function(resp){
-              angular.forEach(resp.data.errors, function(error, field) {
+              angular.forEach(resp.data.error.errors, function(error, field) {
                 if($scope.todoListForm[field] != undefined){
                   $scope.todoListForm[field].$setValidity('server', false);
                   $scope.errors[field] = error;
@@ -90,7 +90,7 @@ app.controller('TodoListCtrl', ['$scope', '$state', 'Flash', 'Spin', 'TodoList',
               Spin.stopSpin();
               Flash.create('success', "Todo list updated successfully", 'custom-class');
             }, function(resp){
-              angular.forEach(resp.data.errors, function(error, field) {
+              angular.forEach(resp.data.error.errors, function(error, field) {
                 if($scope.todoListForm[field] != undefined){
                   $scope.todoListForm[field].$setValidity('server', false);
                   $scope.errors[field] = error;
@@ -165,7 +165,7 @@ app.controller('TodoListCtrl', ['$scope', '$state', 'Flash', 'Spin', 'TodoList',
               Spin.stopSpin();
               Flash.create('success', "Todo item created successfully", 'custom-class');
             }, function(resp){
-              angular.forEach(resp.data.errors, function(error, field) {
+              angular.forEach(resp.data.error.errors, function(error, field) {
                 if($scope.todoItemForm[field] != undefined){
                   $scope.todoItemForm[field].$setValidity('server', false);
                   $scope.errors[field] = error;
@@ -209,7 +209,7 @@ app.controller('TodoListCtrl', ['$scope', '$state', 'Flash', 'Spin', 'TodoList',
               Spin.stopSpin();
               Flash.create('success', "Todo item updated successfully", 'custom-class');
             }, function(resp){
-              angular.forEach(resp.data.errors, function(error, field) {
+              angular.forEach(resp.data.error.errors, function(error, field) {
                 if($scope.todoItemForm[field] != undefined){
                   $scope.todoItemForm[field].$setValidity('server', false);
                   $scope.errors[field] = error;
